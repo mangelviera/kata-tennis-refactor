@@ -3,23 +3,27 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
+import tennis_kata.Player;
+import tennis_kata.TennisGame;
 
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static tennis_kata.Player.PLAYER_1;
+import static tennis_kata.Player.PLAYER_2;
 
 public class TennisTest {
 
     @ParameterizedTest
     @ArgumentsSource(ScoreArguments.class)
     public void check_all_scores_tennis_game(int player1Score, int player2Score, String expectedScore) {
-        var game = new TennisGame("player1", "player2");
+        var game = new TennisGame();
         var highestScore = Math.max(player1Score, player2Score);
         for (int i = 0; i < highestScore; i++) {
             if (i < player1Score)
-                game.wonPoint("player1");
+                game.wonPoint(PLAYER_1);
             if (i < player2Score)
-                game.wonPoint("player2");
+                game.wonPoint(PLAYER_2);
         }
         assertEquals(expectedScore, game.getScore());
     }
