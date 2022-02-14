@@ -1,23 +1,17 @@
-package tennis_kata;
+package tennis_kata
 
-import static tennis_kata.Player.PLAYER_1;
-import static tennis_kata.Player.PLAYER_2;
+import tennis_kata.Player.PLAYER_1
+import tennis_kata.Player.PLAYER_2
 
-public class TennisGame
-{
-    private Point points;
+class TennisGame {
+    private var points = Scoreboard.ZERO_ZERO
 
-    public TennisGame() {
-        this.points = Point.ZERO_ZERO;
+    fun wonPoint(player: Player) {
+        points = when (player) {
+            PLAYER_1 -> points.player1NextScore()
+            PLAYER_2 -> points.player2NextScore()
+        }
     }
 
-    public String getScore(){
-        return this.points.result();
-    }
-
-    public void wonPoint(Player player) {
-        if (player.equals(PLAYER_1)) this.points = this.points.player1Score();
-        if (player.equals(PLAYER_2)) this.points = this.points.player2Score();
-    }
-
+    fun getScore() = points.score
 }

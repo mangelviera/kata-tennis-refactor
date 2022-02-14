@@ -1,9 +1,9 @@
 package tennis_kata
 
-enum class Point(
-    private val player1NextScore: () -> Point,
-    private val player2NextScore: () -> Point,
-    private val result: String
+enum class Scoreboard(
+    val player1NextScore: () -> Scoreboard,
+    val player2NextScore: () -> Scoreboard,
+    val score: String
 ) {
     ZERO_ZERO({ FIFTEEN_ZERO }, { ZERO_FIFTEEN }, "Love-All"),
     ZERO_FIFTEEN({ FIFTEEN_FIFTEEN }, { ZERO_THIRTY }, "Love-Fifteen"),
@@ -26,7 +26,4 @@ enum class Point(
     PLAYER_ONE_WIN({ PLAYER_ONE_WIN }, { PLAYER_ONE_WIN }, "Win for player1"),
     PLAYER_TWO_WIN({ PLAYER_TWO_WIN }, { PLAYER_TWO_WIN}, "Win for player2");
 
-    fun player1Score() = player1NextScore()
-    fun player2Score() = player2NextScore()
-    fun result() = result
 }
