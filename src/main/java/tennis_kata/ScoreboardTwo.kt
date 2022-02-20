@@ -9,7 +9,7 @@ interface ScoreboardTwo {
     fun score(): String
 }
 
-class Initial private constructor(private var player1Points: GamePoints, private var player2Points: GamePoints) : ScoreboardTwo {
+class Initial private constructor(private val player1Points: GamePoints, private val player2Points: GamePoints) : ScoreboardTwo {
     companion object {
         fun new() : ScoreboardTwo = Initial(LOVE, LOVE)
     }
