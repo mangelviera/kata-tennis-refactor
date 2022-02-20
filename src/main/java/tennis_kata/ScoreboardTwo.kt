@@ -14,28 +14,24 @@ class Initial private constructor(private var player1Points: GamePoints, private
         fun new() : ScoreboardTwo = Initial(LOVE, LOVE)
     }
     override fun player1NextScore(): ScoreboardTwo = when (player1Points) {
-        LOVE -> Initial(FIFTEEN, player2Points)
-        FIFTEEN -> Initial(THIRTY, player2Points)
-        THIRTY -> if (player2Points == FORTY) Deuce() else Initial(FORTY, player2Points)
+        LOVE, FIFTEEN -> Initial(player1Points.next(), player2Points)
+        THIRTY -> if (player2Points == FORTY) Deuce() else Initial(player1Points.next(), player2Points)
         FORTY -> Win(PLAYER_1)
     }
     override fun player2NextScore(): ScoreboardTwo = when (player2Points) {
-        LOVE -> Initial(player1Points, FIFTEEN)
-        FIFTEEN -> Initial(player1Points, THIRTY)
-        THIRTY -> if (player1Points == FORTY) Deuce() else Initial(player1Points, FORTY)
+        LOVE, FIFTEEN -> Initial(player1Points, player2Points.next())
+        THIRTY -> if (player1Points == FORTY) Deuce() else Initial(player1Points, player2Points.next())
         FORTY -> Win(PLAYER_2)
     }
     override fun score(): String = when (Pair(player1Points, player2Points)) {
-        Pair(LOVE, LOVE) -> "${LOVE.displayName}-All"
-        Pair(FIFTEEN, FIFTEEN) -> "${FIFTEEN.displayName}-All"
-        Pair(THIRTY, THIRTY) -> "${THIRTY.displayName}-All"
+        Pair(LOVE, LOVE), Pair(FIFTEEN, FIFTEEN), Pair(THIRTY, THIRTY) -> "${player1Points.displayName}-All"
         else -> "${player1Points.displayName}-${player2Points.displayName}"
     }
-    private enum class GamePoints(val displayName: String) {
-        LOVE("Love"),
-        FIFTEEN("Fifteen"),
-        THIRTY("Thirty"),
-        FORTY("Forty")
+    private enum class GamePoints(val displayName: String, val next: () -> GamePoints) {
+        LOVE("Love", { FIFTEEN }),
+        FIFTEEN("Fifteen", { THIRTY }),
+        THIRTY("Thirty", { FORTY }),
+        FORTY("Forty", { FORTY })
     }
 }
 
