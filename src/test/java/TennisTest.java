@@ -3,8 +3,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
-import tennis_kata.Player;
 import tennis_kata.TennisGame;
+import tennis_kata.TennisGameTwo;
 
 import java.util.stream.Stream;
 
@@ -18,15 +18,22 @@ public class TennisTest {
     @ArgumentsSource(ScoreArguments.class)
     public void check_all_scores_tennis_game(int player1Score, int player2Score, String expectedScore) {
         var game = new TennisGame();
+        var game2 = new TennisGameTwo();
         var highestScore = Math.max(player1Score, player2Score);
         for (int i = 0; i < highestScore; i++) {
-            if (i < player1Score)
+            if (i < player1Score) {
                 game.wonPoint(PLAYER_1);
-            if (i < player2Score)
+                game2.wonPoint(PLAYER_1);
+            }
+            if (i < player2Score) {
                 game.wonPoint(PLAYER_2);
+                game2.wonPoint(PLAYER_2);
+            }
         }
-        assertEquals(expectedScore, game.getScore());
+        assertEquals(expectedScore, game2.getScore());
     }
+
+
 
     private static class ScoreArguments implements ArgumentsProvider {
         @Override
