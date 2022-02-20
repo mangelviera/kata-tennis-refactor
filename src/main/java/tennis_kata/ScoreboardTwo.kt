@@ -23,10 +23,10 @@ class Initial private constructor(private val player1Points: GamePoints, private
         THIRTY -> if (player1Points == FORTY) Deuce() else Initial(player1Points, player2Points.next())
         FORTY -> Win(PLAYER_2)
     }
-    override fun score(): String = when (Pair(player1Points, player2Points)) {
-        Pair(LOVE, LOVE), Pair(FIFTEEN, FIFTEEN), Pair(THIRTY, THIRTY) -> "${player1Points.displayName}-All"
-        else -> "${player1Points.displayName}-${player2Points.displayName}"
-    }
+    override fun score(): String =
+        if (player1Points == player2Points) "${player1Points.displayName}-All"
+        else "${player1Points.displayName}-${player2Points.displayName}"
+
     private enum class GamePoints(val displayName: String, val next: () -> GamePoints) {
         LOVE("Love", { FIFTEEN }),
         FIFTEEN("Fifteen", { THIRTY }),
